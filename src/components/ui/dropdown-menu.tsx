@@ -72,15 +72,17 @@ function DropdownMenuTrigger({
   )
 }
 
-function DropdownMenuContent({ className, align = "right", children, ...props }: React.ComponentProps<"div"> & { align?: "left" | "right" }) {
+function DropdownMenuContent({ className, align = "right", children, ...props }: React.ComponentProps<"div"> & { align?: "left" | "right" | "start" | "end" }) {
   const context = React.useContext(DropdownContext);
   if (!context || !context.open) return null;
+
+  const isRight = align === "right" || align === "end";
 
   return (
     <div
       className={cn(
         "absolute z-50 mt-2 min-w-[12rem] overflow-hidden rounded-lg border border-border/60 bg-popover p-1.5 text-popover-foreground shadow-lg animate-in fade-in-80 zoom-in-95",
-        align === "right" ? "right-0" : "left-0",
+        isRight ? "right-0" : "left-0",
         className
       )}
       {...props}
@@ -90,10 +92,11 @@ function DropdownMenuContent({ className, align = "right", children, ...props }:
   )
 }
 
-function DropdownMenuItem({ className, onClick, children, ...props }: React.ComponentProps<"div">) {
+function DropdownMenuItem({ className, onClick, disabled, children, ...props }: React.ComponentProps<"div"> & { disabled?: boolean }) {
   const context = React.useContext(DropdownContext);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (disabled) return;
     if (onClick) onClick(e);
     if (context) context.setOpen(false);
   };
@@ -102,7 +105,8 @@ function DropdownMenuItem({ className, onClick, children, ...props }: React.Comp
     <div
       onClick={handleClick}
       className={cn(
-        "relative flex cursor-pointer select-none items-center rounded-md px-2.5 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "relative flex cursor-pointer select-none items-center rounded-md px-2.5 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
+        disabled && "pointer-events-none opacity-40 cursor-not-allowed",
         className
       )}
       {...props}

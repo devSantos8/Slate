@@ -23,7 +23,7 @@ export interface Customer {
 export const INITIAL_METRICS: Metric[] = [
   {
     id: '1',
-    title: 'Ingresos Mensuales',
+    title: 'Ingresos del Estudio',
     value: '$128,450.00',
     change: '+14.2%',
     isPositive: true,
@@ -32,7 +32,7 @@ export const INITIAL_METRICS: Metric[] = [
   },
   {
     id: '2',
-    title: 'Usuarios Activos',
+    title: 'Creadores Activos',
     value: '2,845',
     change: '+8.1%',
     isPositive: true,
@@ -41,7 +41,7 @@ export const INITIAL_METRICS: Metric[] = [
   },
   {
     id: '3',
-    title: 'Suscripciones Pro',
+    title: 'Pitch Decks Pro',
     value: '1,240',
     change: '+5.4%',
     isPositive: true,
@@ -50,10 +50,10 @@ export const INITIAL_METRICS: Metric[] = [
   },
   {
     id: '4',
-    title: 'Tasa de Conversión',
-    value: '4.85%',
-    change: '-0.4%',
-    isPositive: false,
+    title: 'Tasa de Visualización',
+    value: '84.85%',
+    change: '+3.2%',
+    isPositive: true,
     period: 'vs. mes anterior',
     iconName: 'TrendingUp',
   },

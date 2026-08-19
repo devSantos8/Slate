@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/context/auth-context";
 import "./globals.css";
 
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const robotoMono = Roboto_Mono({
-  weight: ["400", "500", "700"],
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-roboto-mono",
+  variable: "--font-jetbrains",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Slate SaaS | Dashboard de Administración & Gestión",
-  description: "Plataforma moderna de gestión de clientes, analíticas y facturación construida con Next.js, Tailwind CSS y shadcn/ui.",
+  title: "Slate — Hyper-Aesthetic Presentation Studio",
+  description:
+    "Crea presentaciones hiperestéticas con tipografía editorial, animaciones cinemáticas y un editor de diapositivas de lujo.",
 };
 
 export default function RootLayout({
@@ -26,15 +29,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" suppressHydrationWarning className={`${roboto.variable} ${robotoMono.variable}`}>
-      <body className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary font-sans">
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="min-h-screen bg-background text-foreground antialiased selection:bg-violet-500/20 selection:text-violet-200 font-sans">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            <TooltipProvider>
+              {children}
+            </TooltipProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
