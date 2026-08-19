@@ -50,24 +50,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const login = (email: string, role: UserRole = "admin") => {
-    if (role === "user" || email.includes("user")) {
+    if (role === "user" || email.includes("user") || email === "carlos@nexuslabs.co") {
       setUser(DEMO_USER);
       router.push("/user");
     } else {
       setUser(DEMO_ADMIN);
-      router.push("/");
+      router.push("/admin");
     }
   };
 
   const logout = () => {
     setUser(null);
-    router.push("/login");
+    router.push("/");
   };
 
   const switchRole = (newRole: UserRole) => {
     if (newRole === "admin") {
       setUser(DEMO_ADMIN);
-      router.push("/");
+      router.push("/admin");
     } else {
       setUser(DEMO_USER);
       router.push("/user");
