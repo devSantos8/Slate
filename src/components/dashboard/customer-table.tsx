@@ -6,7 +6,6 @@ import { Customer } from "@/lib/mock-data"
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -92,17 +91,17 @@ export function CustomerTable({
 
           {/* Status Filter */}
           <div className="w-36">
-            <Select
+            <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="h-9 text-xs sm:text-sm"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStatusFilter(e.target.value)}
+              className="h-9 w-full rounded-md border border-input bg-card px-2 text-xs sm:text-sm outline-none focus:ring-1 focus:ring-ring"
             >
               <option value="all">Todos los estados</option>
               <option value="active">Activos</option>
               <option value="pending">Pendientes</option>
               <option value="paused">Pausados</option>
               <option value="cancelled">Cancelados</option>
-            </Select>
+            </select>
           </div>
 
           {(searchTerm || statusFilter !== "all") && (

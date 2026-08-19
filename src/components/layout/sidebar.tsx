@@ -12,7 +12,9 @@ import {
   Layers,
   HelpCircle,
   Sparkles,
+  Presentation,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
@@ -42,6 +44,7 @@ export function SidebarContent({
   setActiveItem: (item: string) => void;
   onNavigate?: () => void;
 }) {
+  const router = useRouter();
   return (
     <div className="flex h-full flex-col justify-between py-4">
       <div className="flex flex-col gap-6">
