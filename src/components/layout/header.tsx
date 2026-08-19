@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Bell, Search, Menu, Plus, User, Settings, LogOut, CheckCircle2 } from "lucide-react"
+import { Bell, Search, Menu, Plus, User, Settings, LogOut, CheckCircle2, UserCheck, ShieldCheck } from "lucide-react"
+import { useAuth } from "@/context/auth-context"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -30,6 +31,7 @@ export function Header({
   activeItem,
   setActiveItem,
 }: HeaderProps) {
+  const { user, logout, switchRole } = useAuth();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [notificationsOpen, setNotificationsOpen] = React.useState(false);
 
@@ -78,11 +80,23 @@ export function Header({
 
       {/* Right side: Quick Action, Notifications, Theme Toggle, Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Quick Role Switcher Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => switchRole("user")}
+          className="hidden sm:inline-flex text-xs gap-1.5 border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary font-medium"
+          title="Ver cómo lo ve un cliente"
+        >
+          <UserCheck className="size-3.5" />
+          <span>Ver Portal Cliente</span>
+        </Button>
+
         {/* Create New Button */}
         <Button
           onClick={onOpenNewModal}
           size="sm"
-          className="hidden sm:inline-flex gap-1.5 rounded-lg shadow-xs bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-xs sm:text-sm"
+          className="hidden md:inline-flex gap-1.5 rounded-lg shadow-xs bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-xs sm:text-sm"
         >
           <Plus className="size-4" />
           <span>Nuevo Cliente</span>
@@ -139,8 +153,10 @@ export function Header({
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative size-9 rounded-full p-0 ring-2 ring-primary/20 hover:ring-primary/40 transition-all">
               <Avatar className="size-9">
-                <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Joain Monroy" />
-                <AvatarFallback className="bg-primary/10 text-primary font-semibold">JM</AvatarFallback>
+                <AvatarImage src={user?.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150"} alt={user?.name || "Usuario"} />
+                <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                  {user?.name ? user.name.substring(0, 2).toUpperCase() : "JM"}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -148,21 +164,21 @@ export function Header({
           <DropdownMenuContent align="right" className="w-56">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-semibold leading-none">Joain Monroy</p>
-                <p className="text-xs leading-none text-muted-foreground">joainmonroy12@gmail.com</p>
+                <p className="text-sm font-semibold leading-none">{user?.name || "Joain Monroy"}</p>
+                <p className="text-xs leading-none text-muted-foreground">{user?.email || "admin@slate.io"}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2">
-              <User className="size-4" />
-              <span>Mi Perfil</span>
+            <DropdownMenuItem onClick={() => switchRole("user")} className="gap-2">
+              <UserCheck className="size-4 text-primary" />
+              <span>Ver Portal Cliente</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="gap-2">
               <Settings className="size-4" />
               <span>Configuración</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 text-destructive focus:bg-destructive/10">
+            <DropdownMenuItem onClick={logout} className="gap-2 text-destructive focus:bg-destructive/10">
               <LogOut className="size-4" />
               <span>Cerrar Sesión</span>
             </DropdownMenuItem>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/context/auth-context";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -16,8 +17,8 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Slate SaaS | Dashboard de Administración & Gestión",
-  description: "Plataforma moderna de gestión de clientes, analíticas y facturación construida con Next.js, Tailwind CSS y shadcn/ui.",
+  title: "Slate SaaS | Plataforma de Gestión y Portal de Usuario",
+  description: "Plataforma moderna de gestión de clientes, portal de usuarios, analíticas y facturación construida con Next.js, Tailwind CSS y shadcn/ui.",
 };
 
 export default function RootLayout({
@@ -34,7 +35,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
